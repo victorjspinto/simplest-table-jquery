@@ -62,29 +62,35 @@
       
       $.getJSON('data.json', function(data) {
 
+        // read value from api and transform to simple document with only needed values
+        var transformToDTO = function(hit) {
+          var source = hit['_source'];
+          return {
+            token_key: source.token_key,
+            hostname: source.hostname,
+            timestamp: source['@timestamp'],
+            ipv4: source['ipv4']
+          };
+        };
+
+        var templateToHtml = fuction(hitDTO) {
+          $('#myTable tr:last')
+            .after(`
+                <tr>
+                  <th scope="row">${hitDTO.token_key}</th>
+                  <td>${hitDTO.hostname}</td>
+                  <td>${hitDTO.timestamp}</td>
+                  <td>${hitDTO.ipv4}</td>
+                </tr>
+             `);
+        }
+
+
         var result =  data
                         .hits
-                          .hits
-                            .map(function(hit) {
-                              var source = hit['_source'];
-                              return {
-                                token_key: source.token_key,
-                                hostname: source.hostname,
-                                timestamp: source['@timestamp'],
-                                ipv4: source['ipv4']
-                              }
-                            })
-                            .map(function(value) {
-                              $('#myTable tr:last')
-                                .after(`
-                                    <tr>
-                                      <th scope="row">${value.token_key}</th>
-                                      <td>${value.hostname}</td>
-                                      <td>${value.timestamp}</td>
-                                      <td>${value.ipv4}</td>
-                                    </tr>
-                                 `);
-                            });
+                        .hits
+                        .map(transformToDTO)
+                        .map(templateToHtml);
 
 
         console.log(result);
