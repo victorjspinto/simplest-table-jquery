@@ -1,0 +1,46 @@
+{
+   "took" : 72,
+   "_shards" : {
+      "successful" : 336,
+      "total" : 336,
+      "failed" : 0
+   },
+   "hits" : {
+      "total" : 287,
+      "hits" : [
+         {
+            "_type" : "node_token",
+            "_index" : "2017.08.22",
+            "_id" : "AV4HvelbBBCEB9qBcYbj",
+            "_source" : {
+               "token_key" : "X-Zen-Fury",
+               "token_val" : "c25eb96caddcc478469f11f6099a5a27dbd84536",
+               "status" : "0",
+               "hostname" : "ec2-us-east-node10-2xl",
+               "msg" : "Token added",
+               "@timestamp" : "2017-08-22T02:20:25+00:00",
+               "timestamp" : "22/Aug/2017:02:08:25 +0000",
+               "ipv4" : "172.31.38.193"
+            },
+            "_score" : 5.401858
+         },
+         {
+            "_score" : 5.401858,
+            "_type" : "node_token",
+            "_index" : "2017.08.22",
+            "_id" : "AV4IK8hzVevqNFh1aGAh",
+            "_source" : {
+               "ipv4" : "172.31.38.193",
+               "@timestamp" : "2017-08-22T04:20:38+00:00",
+               "timestamp" : "22/Aug/2017:04:08:38 +0000",
+               "msg" : "Token added",
+               "hostname" : "ec2-us-east-node10-2xl",
+               "status" : "0",
+               "token_val" : "c25eb96caddcc478469f11f6099a5a27dbd84536",
+               "token_key" : "X-Zen-Fury"
+            }
+         }      ],
+      "max_score" : 5.401858
+   },
+   "timed_out" : false
+}
