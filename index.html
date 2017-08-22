@@ -15,39 +15,43 @@
       <div class="row">
         <div class="col-md-12">
           <h1>Hello, world!</h1>
-
-          <table id="table" class="table">
-            <thead>
-              <tr>
-                <th>Token Key</th>
-                <th>Hostname</th>
-                <th>Timestamp</th>
-                <th>Ipv4</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-              </tr>
-            </tbody>
-          </table> 
         </div>
       </div>
+      <div class="row">
+        <div class="col-md-12">
+          
+          <form action="javascript:loadBackendData()">
+            <div class="form-group row">
+              <label for="inputParam" class="col-sm-2 col-form-label">Input</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputParam" placeholder="Input para consumir dados via REST">
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="offset-sm-2 col-sm-10">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </div>
+          </form>
+
+        </div>
+      </div>
+
+
+      <table id="table" class="table">
+        <thead>
+          <tr>
+            <th>Token Key</th>
+            <th>Hostname</th>
+            <th>Timestamp</th>
+            <th>Ipv4</th>
+          </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+      </table> 
     </div>
 
 
@@ -60,10 +64,7 @@
 
     <script type="text/javascript">
       
-      $.getJSON('data.json', function(data) {
-
-        // read value from api and transform to simple document with only needed values
-        var transformToDTO = function(hit) {
+      function transformToDTO(hit) {
           var source = hit['_source'];
           return {
             token_key: source.token_key,
@@ -73,28 +74,37 @@
           };
         };
 
-        var templateToHtml = function(hitDTO) {
-          $('#myTable tr:last')
-            .after(`
-                <tr>
-                  <th scope="row">${hitDTO.token_key}</th>
-                  <td>${hitDTO.hostname}</td>
-                  <td>${hitDTO.timestamp}</td>
-                  <td>${hitDTO.ipv4}</td>
-                </tr>
-             `);
-        }
+
+      function templateToHtml(hitDTO) {
+        $('#table tbody')
+          .append(`
+              <tr>
+                <th scope="row">${hitDTO.token_key}</th>
+                <td>${hitDTO.hostname}</td>
+                <td>${hitDTO.timestamp}</td>
+                <td>${hitDTO.ipv4}</td>
+              </tr>
+           `);
+      }
 
 
-        var result =  data
-                        .hits
-                        .hits
-                        .map(transformToDTO)
-                        .map(templateToHtml);
+      function loadBackendData() {
+
+        var parameter = $('#inputParam').val();
+        console.log('Rest api parameter ', parameter);
+
+        $.getJSON('data.json', function(data) {
+          var result =  data
+            .hits
+            .hits
+            .map(transformToDTO)
+            .map(templateToHtml);
+        });
+      }
 
 
-        console.log(result);
-      });
+      $('#parametersForm').submit(loadBackendData);
+
     </script>
 
   </body>
